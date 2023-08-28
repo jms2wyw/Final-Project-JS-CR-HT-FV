@@ -3,19 +3,18 @@ package com.company.gamestore.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitiailizer", "handler"})
 @Table(name = "tshirt")
-public class Tshirt {
-
+public class Tshirt implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tshirt_id")
-    private int tshirtId;
-
+    private Integer tshirtId;
     @javax.validation.constraints.NotNull(message = "Size cannot be null")
     private String size;
     @javax.validation.constraints.NotNull(message = "Color cannot be null")
