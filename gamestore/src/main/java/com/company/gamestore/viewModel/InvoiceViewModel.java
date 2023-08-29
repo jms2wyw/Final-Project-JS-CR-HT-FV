@@ -1,43 +1,19 @@
-package com.company.gamestore.model;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.persistence.*;
-import java.io.Serializable;
+package com.company.gamestore.viewModel;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-@Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table(name = "invoice")
-public class Invoice implements Serializable {
+public class InvoiceViewModel {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "invoice_id")
     private int invoiceId;
-
-    @javax.validation.constraints.NotNull(message = "Name cannot be null")
     private String name;
-    @javax.validation.constraints.NotNull(message = "Street cannot be null")
     private String street;
-    @javax.validation.constraints.NotNull(message = "City cannot be null")
     private String city;
-    @javax.validation.constraints.NotNull(message = "State cannot be null")
     private String state;
-    @javax.validation.constraints.NotNull(message = "Zipcode cannot be null")
     private String zipcode;
-
-    @javax.validation.constraints.NotNull(message = "Item type cannot be null")
-    //@Column(name = "item_type")
     private String itemType;
-    @javax.validation.constraints.NotNull(message = "Item id cannot be null")
-    //@Column(name = "item_id")
     private int itemId;
-    @javax.validation.constraints.NotNull(message = "Quantity cannot be null")
-    private int quantity;
-
     private BigDecimal unitPrice;
+    private int quantity;
     private BigDecimal subtotal;
     private BigDecimal tax;
     private BigDecimal processingFee;
@@ -99,7 +75,7 @@ public class Invoice implements Serializable {
         this.itemType = itemType;
     }
 
-    public int getItemId() {
+    public int getItem_id() {
         return itemId;
     }
 
@@ -159,12 +135,12 @@ public class Invoice implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Invoice invoice = (Invoice) o;
-        return invoiceId == invoice.invoiceId && itemId == invoice.itemId && quantity == invoice.quantity && Objects.equals(name, invoice.name) && Objects.equals(street, invoice.street) && Objects.equals(city, invoice.city) && Objects.equals(state, invoice.state) && Objects.equals(zipcode, invoice.zipcode) && Objects.equals(itemType, invoice.itemType) && Objects.equals(unitPrice, invoice.unitPrice) && Objects.equals(subtotal, invoice.subtotal) && Objects.equals(tax, invoice.tax) && Objects.equals(processingFee, invoice.processingFee) && Objects.equals(total, invoice.total);
+        InvoiceViewModel that = (InvoiceViewModel) o;
+        return invoiceId == that.invoiceId && itemId == that.itemId && quantity == that.quantity && Objects.equals(name, that.name) && Objects.equals(street, that.street) && Objects.equals(city, that.city) && Objects.equals(state, that.state) && Objects.equals(zipcode, that.zipcode) && Objects.equals(itemType, that.itemType) && Objects.equals(unitPrice, that.unitPrice) && Objects.equals(subtotal, that.subtotal) && Objects.equals(tax, that.tax) && Objects.equals(processingFee, that.processingFee) && Objects.equals(total, that.total);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(invoiceId, name, street, city, state, zipcode, itemType, itemId, quantity, unitPrice, subtotal, tax, processingFee, total);
+        return Objects.hash(invoiceId, name, street, city, state, zipcode, itemType, itemId, unitPrice, quantity, subtotal, tax, processingFee, total);
     }
 }

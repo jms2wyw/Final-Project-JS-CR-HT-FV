@@ -12,5 +12,7 @@ public interface TshirtRepository  extends JpaRepository<Tshirt, Integer> {
     //find by size
     List<Tshirt> findBySize(String size);
 
+    boolean existsByTshirtId(int itemId);
+
 
 }
