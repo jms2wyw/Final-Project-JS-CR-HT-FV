@@ -3,13 +3,14 @@ package com.company.gamestore.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitiailizer", "handler"})
 @Table(name = "tshirt")
-public class Tshirt {
+public class Tshirt implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

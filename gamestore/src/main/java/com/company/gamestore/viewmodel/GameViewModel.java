@@ -1,26 +1,23 @@
-package com.company.gamestore.model;
+package com.company.gamestore.viewmodel;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Column;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-@Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table(name = "game")
-public class Game implements Serializable {
+public class GameViewModel {
 
-    @Id
-    @Column(name = "game_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int gameId;
 
+    @javax.validation.constraints.NotNull(message = "Title cannot be null")
     private String title;
+    @Column(name = "esrb_rating")
+    @javax.validation.constraints.NotNull(message = "ESRB Rating cannot be null")
     private String esrbRating;
+    @javax.validation.constraints.NotNull(message = "Description cannot be null")
     private String description;
+    @javax.validation.constraints.NotNull(message = "Price cannot be null")
     private BigDecimal price;
+    @javax.validation.constraints.NotNull(message = "Studio cannot be null")
     private String studio;
     private int quantity;
 
@@ -83,15 +80,15 @@ public class Game implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Game)) return false;
-        Game game = (Game) o;
-        return getGameId() == game.getGameId() &&
-                getQuantity() == game.getQuantity() &&
-                Objects.equals(getTitle(), game.getTitle()) &&
-                Objects.equals(getEsrbRating(), game.getEsrbRating()) &&
-                Objects.equals(getDescription(), game.getDescription()) &&
-                Objects.equals(getPrice(), game.getPrice()) &&
-                Objects.equals(getStudio(), game.getStudio());
+        if (!(o instanceof GameViewModel)) return false;
+        GameViewModel that = (GameViewModel) o;
+        return getGameId() == that.getGameId() &&
+                getQuantity() == that.getQuantity() &&
+                Objects.equals(getTitle(), that.getTitle()) &&
+                Objects.equals(getEsrbRating(), that.getEsrbRating()) &&
+                Objects.equals(getDescription(), that.getDescription()) &&
+                Objects.equals(getPrice(), that.getPrice()) &&
+                Objects.equals(getStudio(), that.getStudio());
     }
 
     @Override
