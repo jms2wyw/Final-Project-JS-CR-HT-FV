@@ -1,11 +1,10 @@
 package com.company.gamestore.service;
 
+import com.company.gamestore.model.Console;
 import com.company.gamestore.model.Fee;
 import com.company.gamestore.model.Invoice;
 import com.company.gamestore.model.Tax;
-import com.company.gamestore.repository.FeeRepository;
-import com.company.gamestore.repository.InvoiceRepository;
-import com.company.gamestore.repository.TaxRepository;
+import com.company.gamestore.repository.*;
 import com.company.gamestore.viewModel.InvoiceViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,13 +19,23 @@ import java.util.Optional;
 public class ServiceLayer {
 
     private InvoiceRepository invoiceRepository;
+
+    private TshirtRepository tshirtRepository;
+
+    private ConsoleRepository consoleRepository;
+
+    private GameRepository gameRepository;
+
     private TaxRepository taxRepository;
     private FeeRepository feeRepository;
 
 
     @Autowired
-    public ServiceLayer(InvoiceRepository invoiceRepository, TaxRepository taxRepository,FeeRepository feeRepository) {
+    public ServiceLayer(InvoiceRepository invoiceRepository, TshirtRepository tshirtRepository, ConsoleRepository consoleRepository, GameRepository gameRepository, TaxRepository taxRepository,FeeRepository feeRepository) {
         this.invoiceRepository = invoiceRepository;
+        this.tshirtRepository = tshirtRepository;
+        this.consoleRepository = consoleRepository;
+        this.gameRepository = gameRepository;
         this.taxRepository = taxRepository;
         this.feeRepository = feeRepository;
     }
@@ -43,16 +52,16 @@ public class ServiceLayer {
         invoice.setCity(viewModel.getCity());
         invoice.setState(viewModel.getState());
         invoice.setZipcode(viewModel.getZipcode());
-        invoice.setItemtype(viewModel.getItem_type());
+        invoice.setItemType(viewModel.getItemType());
         invoice.setItemId(viewModel.getItem_id());
-        invoice.setUnit_price(viewModel.getUnit_price());
+        invoice.setUnitPrice(viewModel.getUnitPrice());
         invoice.setQuantity(viewModel.getQuantity());
 
         InvoiceViewModel ivm = buildInvoiceViewModel(invoice);
 
         invoice.setSubtotal(ivm.getSubtotal());
         invoice.setTax(ivm.getTax());
-        invoice.setProcessing_fee(ivm.getProcessing_fee());
+        invoice.setProcessingFee(ivm.getProcessingFee());
         invoice.setTotal(ivm.getTotal());
 
         invoice = invoiceRepository.save(invoice);
@@ -93,17 +102,26 @@ public class ServiceLayer {
         //Bussiness Logic-here or most like likely build view model
 
         //Below is checking requirements/ quantity,type,etc
-        //String itemType = invoice.getItem_type().toLowerCase();
 
-        //if (!"game".equals(itemType) && !"t-shirt".equals(itemType) && !"console".equals(itemType))  {
-        //    throw new IllegalArgumentException("Invalid item type");
-        //}
 
-        //Check if item type, item id, quantity all valid
-        //if(feeRepository.findByProductType(invoice.getItemtype()) == null){
-        //    throw new IllegalArgumentException("Invalid item type");
-        //}
-        //if(console/game/tshirt repo to check valid id and quantitty)
+        //Validate Item Type
+        String itemType = invoice.getItemType().toLowerCase();
+
+        if (!itemType.equals("game") && !itemType.equals("t-shirt") && !itemType.equals("console")){
+            throw new IllegalArgumentException("Invalid item type");
+
+        }
+
+        //Validate itemId
+        int itemId = invoice.getItemId();
+
+        if(!gameRepository.existsByGameId(itemId) && !tshirtRepository.existsByTshirtId(itemId) && !consoleRepository.existsByConsoleId(itemId)){
+            throw new IllegalArgumentException("Invalid item id");
+        }
+
+
+
+
 
 
 
@@ -116,7 +134,7 @@ public class ServiceLayer {
         }
 
         //Get processing fee
-        Optional<Fee> type = feeRepository.findByProductType(invoice.getItemtype());
+        Optional<Fee> type = feeRepository.findByProductType(invoice.getItemType());
         BigDecimal processingFee = BigDecimal.valueOf(0);
 
         if (type.isPresent()) {
@@ -125,8 +143,8 @@ public class ServiceLayer {
 
         //Calculations
         BigDecimal subtotal = BigDecimal.valueOf(0);
-        if (invoice != null && invoice.getUnit_price() != null) {
-            subtotal = invoice.getUnit_price().multiply(new BigDecimal(invoice.getQuantity()));
+        if (invoice != null && invoice.getUnitPrice() != null) {
+            subtotal = invoice.getUnitPrice().multiply(new BigDecimal(invoice.getQuantity()));
         }
 
         if(invoice.getQuantity() > 10){
@@ -144,14 +162,14 @@ public class ServiceLayer {
         ivm.setCity(invoice.getCity());
         ivm.setState(invoice.getState());
         ivm.setZipcode(invoice.getZipcode());
-        ivm.setItem_type(invoice.getItemtype());
-        ivm.setItem_id(invoice.getItemId());
-        ivm.setUnit_price(invoice.getUnit_price());
+        ivm.setItemType(invoice.getItemType());
+        ivm.setItemId(invoice.getItemId());
+        ivm.setUnitPrice(invoice.getUnitPrice());
         ivm.setQuantity(invoice.getQuantity());
 
         ivm.setSubtotal(subtotal);
         ivm.setTax(stateTax);
-        ivm.setProcessing_fee(processingFee);
+        ivm.setProcessingFee(processingFee);
         ivm.setTotal(total);
 
         // Return the InvoiceViewModel

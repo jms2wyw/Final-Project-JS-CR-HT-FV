@@ -27,19 +27,20 @@ public class Invoice implements Serializable {
     private String state;
     @javax.validation.constraints.NotNull(message = "Zipcode cannot be null")
     private String zipcode;
+
     @javax.validation.constraints.NotNull(message = "Item type cannot be null")
-    @Column(name = "item_type")
+    //@Column(name = "item_type")
     private String itemType;
     @javax.validation.constraints.NotNull(message = "Item id cannot be null")
-    @Column(name = "item_id")
+    //@Column(name = "item_id")
     private int itemId;
     @javax.validation.constraints.NotNull(message = "Quantity cannot be null")
     private int quantity;
 
-    private BigDecimal unit_price;
+    private BigDecimal unitPrice;
     private BigDecimal subtotal;
     private BigDecimal tax;
-    private BigDecimal processing_fee;
+    private BigDecimal processingFee;
     private BigDecimal total;
 
     public int getInvoiceId() {
@@ -90,11 +91,11 @@ public class Invoice implements Serializable {
         this.zipcode = zipcode;
     }
 
-    public String getItemtype() {
+    public String getItemType() {
         return itemType;
     }
 
-    public void setItemtype(String itemType) {
+    public void setItemType(String itemType) {
         this.itemType = itemType;
     }
 
@@ -106,12 +107,12 @@ public class Invoice implements Serializable {
         this.itemId = itemId;
     }
 
-    public BigDecimal getUnit_price() {
-        return unit_price;
+    public BigDecimal getUnitPrice() {
+        return unitPrice;
     }
 
-    public void setUnit_price(BigDecimal unit_price) {
-        this.unit_price = unit_price;
+    public void setUnitPrice(BigDecimal unitPrice) {
+        this.unitPrice = unitPrice;
     }
 
     public int getQuantity() {
@@ -138,12 +139,12 @@ public class Invoice implements Serializable {
         this.tax = tax;
     }
 
-    public BigDecimal getProcessing_fee() {
-        return processing_fee;
+    public BigDecimal getProcessingFee() {
+        return processingFee;
     }
 
-    public void setProcessing_fee(BigDecimal processing_fee) {
-        this.processing_fee = processing_fee;
+    public void setProcessingFee(BigDecimal processingFee) {
+        this.processingFee = processingFee;
     }
 
     public BigDecimal getTotal() {
@@ -159,11 +160,11 @@ public class Invoice implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Invoice invoice = (Invoice) o;
-        return invoiceId == invoice.invoiceId && itemId == invoice.itemId && quantity == invoice.quantity && Objects.equals(name, invoice.name) && Objects.equals(street, invoice.street) && Objects.equals(city, invoice.city) && Objects.equals(state, invoice.state) && Objects.equals(zipcode, invoice.zipcode) && Objects.equals(itemType, invoice.itemType) && Objects.equals(unit_price, invoice.unit_price) && Objects.equals(subtotal, invoice.subtotal) && Objects.equals(tax, invoice.tax) && Objects.equals(processing_fee, invoice.processing_fee) && Objects.equals(total, invoice.total);
+        return invoiceId == invoice.invoiceId && itemId == invoice.itemId && quantity == invoice.quantity && Objects.equals(name, invoice.name) && Objects.equals(street, invoice.street) && Objects.equals(city, invoice.city) && Objects.equals(state, invoice.state) && Objects.equals(zipcode, invoice.zipcode) && Objects.equals(itemType, invoice.itemType) && Objects.equals(unitPrice, invoice.unitPrice) && Objects.equals(subtotal, invoice.subtotal) && Objects.equals(tax, invoice.tax) && Objects.equals(processingFee, invoice.processingFee) && Objects.equals(total, invoice.total);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(invoiceId, name, street, city, state, zipcode, itemType, itemId, quantity, unit_price, subtotal, tax, processing_fee, total);
+        return Objects.hash(invoiceId, name, street, city, state, zipcode, itemType, itemId, quantity, unitPrice, subtotal, tax, processingFee, total);
     }
 }

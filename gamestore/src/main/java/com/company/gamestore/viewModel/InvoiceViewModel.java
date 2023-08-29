@@ -10,13 +10,13 @@ public class InvoiceViewModel {
     private String city;
     private String state;
     private String zipcode;
-    private String item_type;
-    private int item_id;
-    private BigDecimal unit_price;
+    private String itemType;
+    private int itemId;
+    private BigDecimal unitPrice;
     private int quantity;
     private BigDecimal subtotal;
     private BigDecimal tax;
-    private BigDecimal processing_fee;
+    private BigDecimal processingFee;
     private BigDecimal total;
 
     public int getInvoiceId() {
@@ -67,28 +67,28 @@ public class InvoiceViewModel {
         this.zipcode = zipcode;
     }
 
-    public String getItem_type() {
-        return item_type;
+    public String getItemType() {
+        return itemType;
     }
 
-    public void setItem_type(String item_type) {
-        this.item_type = item_type;
+    public void setItemType(String itemType) {
+        this.itemType = itemType;
     }
 
     public int getItem_id() {
-        return item_id;
+        return itemId;
     }
 
-    public void setItem_id(int item_id) {
-        this.item_id = item_id;
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
     }
 
-    public BigDecimal getUnit_price() {
-        return unit_price;
+    public BigDecimal getUnitPrice() {
+        return unitPrice;
     }
 
-    public void setUnit_price(BigDecimal unit_price) {
-        this.unit_price = unit_price;
+    public void setUnitPrice(BigDecimal unitPrice) {
+        this.unitPrice = unitPrice;
     }
 
     public int getQuantity() {
@@ -115,12 +115,12 @@ public class InvoiceViewModel {
         this.tax = tax;
     }
 
-    public BigDecimal getProcessing_fee() {
-        return processing_fee;
+    public BigDecimal getProcessingFee() {
+        return processingFee;
     }
 
-    public void setProcessing_fee(BigDecimal processing_fee) {
-        this.processing_fee = processing_fee;
+    public void setProcessingFee(BigDecimal processingFee) {
+        this.processingFee = processingFee;
     }
 
     public BigDecimal getTotal() {
@@ -136,11 +136,11 @@ public class InvoiceViewModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         InvoiceViewModel that = (InvoiceViewModel) o;
-        return invoiceId == that.invoiceId && item_id == that.item_id && quantity == that.quantity && Objects.equals(name, that.name) && Objects.equals(street, that.street) && Objects.equals(city, that.city) && Objects.equals(state, that.state) && Objects.equals(zipcode, that.zipcode) && Objects.equals(item_type, that.item_type) && Objects.equals(unit_price, that.unit_price) && Objects.equals(subtotal, that.subtotal) && Objects.equals(tax, that.tax) && Objects.equals(processing_fee, that.processing_fee) && Objects.equals(total, that.total);
+        return invoiceId == that.invoiceId && itemId == that.itemId && quantity == that.quantity && Objects.equals(name, that.name) && Objects.equals(street, that.street) && Objects.equals(city, that.city) && Objects.equals(state, that.state) && Objects.equals(zipcode, that.zipcode) && Objects.equals(itemType, that.itemType) && Objects.equals(unitPrice, that.unitPrice) && Objects.equals(subtotal, that.subtotal) && Objects.equals(tax, that.tax) && Objects.equals(processingFee, that.processingFee) && Objects.equals(total, that.total);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(invoiceId, name, street, city, state, zipcode, item_type, item_id, unit_price, quantity, subtotal, tax, processing_fee, total);
+        return Objects.hash(invoiceId, name, street, city, state, zipcode, itemType, itemId, unitPrice, quantity, subtotal, tax, processingFee, total);
     }
 }
