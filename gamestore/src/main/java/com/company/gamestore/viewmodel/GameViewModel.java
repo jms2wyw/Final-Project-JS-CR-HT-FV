@@ -1,6 +1,8 @@
 package com.company.gamestore.viewmodel;
 
 import javax.persistence.Column;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -8,16 +10,17 @@ public class GameViewModel {
 
     private int gameId;
 
-    @javax.validation.constraints.NotNull(message = "Title cannot be null")
+    @NotEmpty(message = "Title cannot be null")
     private String title;
     @Column(name = "esrb_rating")
-    @javax.validation.constraints.NotNull(message = "ESRB Rating cannot be null")
+    @NotEmpty(message = "ESRB Rating cannot be null")
     private String esrbRating;
-    @javax.validation.constraints.NotNull(message = "Description cannot be null")
+
+    @NotEmpty(message = "Description cannot be null")
     private String description;
-    @javax.validation.constraints.NotNull(message = "Price cannot be null")
+    @NotNull(message = "Price cannot be null")
     private BigDecimal price;
-    @javax.validation.constraints.NotNull(message = "Studio cannot be null")
+    @NotNull(message = "Studio cannot be null")
     private String studio;
     private int quantity;
 

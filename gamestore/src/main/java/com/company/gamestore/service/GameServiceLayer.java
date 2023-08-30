@@ -4,7 +4,9 @@ import com.company.gamestore.model.Game;
 import com.company.gamestore.repository.GameRepository;
 import com.company.gamestore.viewmodel.GameViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -65,9 +67,13 @@ public class GameServiceLayer {
         game.setQuantity(gameViewModel.getQuantity());
 
         //Update the album
-        game = gameRepository.save(game);
+        try {
+            game = gameRepository.save(game);
 
-        return buildGameViewModel(game);
+            return buildGameViewModel(game);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
     }
 
     @org.springframework.transaction.annotation.Transactional
