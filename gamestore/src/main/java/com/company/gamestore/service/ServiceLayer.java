@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -125,7 +126,7 @@ public class ServiceLayer {
 
                 //Calculate Subtotal
                 BigDecimal subtotal = game.get().getPrice().multiply(new BigDecimal(invoice.getQuantity()));
-                BigDecimal subtotalFormatted = subtotal.setScale(2, BigDecimal.ROUND_HALF_UP);
+                BigDecimal subtotalFormatted = subtotal.setScale(2, RoundingMode.UP);
                 invoice.setUnitPrice(game.get().getPrice());
                 invoice.setSubtotal(subtotalFormatted);
 
@@ -143,7 +144,7 @@ public class ServiceLayer {
 
                 //Calculate Subtotal
                 BigDecimal subtotal = tshirt.get().getPrice().multiply(new BigDecimal(invoice.getQuantity()));
-                BigDecimal subtotalFormatted = subtotal.setScale(2, BigDecimal.ROUND_HALF_UP);
+                BigDecimal subtotalFormatted = subtotal.setScale(2, RoundingMode.UP);
                 invoice.setUnitPrice(tshirt.get().getPrice());
                 invoice.setSubtotal(subtotalFormatted);
             }
@@ -159,7 +160,7 @@ public class ServiceLayer {
 
                 //Calculate Subtotal
                 BigDecimal subtotal = console.get().getPrice().multiply(new BigDecimal(invoice.getQuantity()));
-                BigDecimal subtotalFormatted = subtotal.setScale(2, BigDecimal.ROUND_HALF_UP);
+                BigDecimal subtotalFormatted = subtotal.setScale(2, RoundingMode.UP);
                 invoice.setUnitPrice(console.get().getPrice());
                 invoice.setSubtotal(subtotalFormatted);
             }
@@ -185,12 +186,13 @@ public class ServiceLayer {
             processingFee = processingFee.add(new BigDecimal(15.49));
         }
 
+        processingFee = processingFee.setScale(2, RoundingMode.UP);
         invoice.setProcessingFee(processingFee);
 
         //Total
-
         BigDecimal total = invoice.getSubtotal().add(invoice.getTax());
         total = total.add(invoice.getProcessingFee());
+        total = total.setScale(2, RoundingMode.UP);
         invoice.setTotal(total);
 
 
