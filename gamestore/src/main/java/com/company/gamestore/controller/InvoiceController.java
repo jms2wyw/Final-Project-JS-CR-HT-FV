@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +25,7 @@ public class InvoiceController {
     //Create Invoice
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public InvoiceViewModel createInvoice(@RequestBody InvoiceViewModel invoiceViewModel) {
+    public InvoiceViewModel createInvoice(@RequestBody @Valid InvoiceViewModel invoiceViewModel) {
         return serviceLayer.saveInvoice(invoiceViewModel);
     }
 
@@ -42,7 +43,7 @@ public class InvoiceController {
 
     //Read by customer name
     @GetMapping("/read/name/{name}")
-    public List<Invoice> getCustomersByName(@PathVariable String name) {
-        return repo.findByName(name);
+    public List<InvoiceViewModel> getCustomersByName(@PathVariable String name) {
+        return serviceLayer.findInvoiceByName(name);
     }
 }

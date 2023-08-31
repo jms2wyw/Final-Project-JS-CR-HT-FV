@@ -1,7 +1,10 @@
 package com.company.gamestore.controller;
 
 import com.company.gamestore.model.Invoice;
+import com.company.gamestore.model.Tshirt;
 import com.company.gamestore.repository.InvoiceRepository;
+import com.company.gamestore.repository.TshirtRepository;
+import com.company.gamestore.service.ServiceLayer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,21 +29,33 @@ public class InvoiceControllerTest {
     @Autowired
     private InvoiceRepository invoiceRepo;
 
+    @Autowired
+    ServiceLayer serviceLayer;
+
+
     ObjectMapper mapper = new ObjectMapper();
 
     @Test
     public void testCreateInvoice() throws Exception {
 
+        Tshirt tshirt = new Tshirt();
+        tshirt.setTshirtId(1);
+        tshirt.setColor("Black");
+        tshirt.setQuantity(1);
+        tshirt.setDescription("Cotton Shirt");
+        tshirt.setSize("L");
+        tshirt.setPrice(new BigDecimal(12.99));
+
         Invoice invoice = new Invoice();
         invoice.setName("John Smith");
         invoice.setStreet("123 Street");
         invoice.setCity("City");
-        invoice.setState("State");
+        invoice.setState("CA");
         invoice.setZipcode("54321");
-        invoice.setItemType("game");
-        invoice.setItemId(1);
-        invoice.setUnitPrice(new BigDecimal(100));
-        invoice.setQuantity(1);
+        invoice.setItemType("t-shirt");
+        invoice.setItemId(tshirt.getTshirtId());
+        invoice.setUnitPrice(tshirt.getPrice());
+        invoice.setQuantity(tshirt.getQuantity());
         invoice.setSubtotal(new BigDecimal(100));
         invoice.setTax(new BigDecimal(8.25));
         invoice.setProcessingFee(new BigDecimal(1.75));
@@ -64,7 +79,7 @@ public class InvoiceControllerTest {
         invoice.setName("John Smith");
         invoice.setStreet("123 Street");
         invoice.setCity("City");
-        invoice.setState("State");
+        invoice.setState("CA");
         invoice.setZipcode("54321");
         invoice.setItemType("game");
         invoice.setItemId(1);
@@ -89,7 +104,7 @@ public class InvoiceControllerTest {
         invoice.setName("John Smith");
         invoice.setStreet("123 Street");
         invoice.setCity("City");
-        invoice.setState("State");
+        invoice.setState("CA");
         invoice.setZipcode("54321");
         invoice.setItemType("game");
         invoice.setItemId(1);
@@ -105,7 +120,7 @@ public class InvoiceControllerTest {
         invoice.setName("Jane Doe");
         invoice.setStreet("123 Street");
         invoice.setCity("City");
-        invoice.setState("State");
+        invoice.setState("CA");
         invoice.setZipcode("54321");
         invoice.setItemType("shirt");
         invoice.setItemId(1);
@@ -133,7 +148,7 @@ public class InvoiceControllerTest {
         invoice.setName("John Smith");
         invoice.setStreet("123 Street");
         invoice.setCity("City");
-        invoice.setState("State");
+        invoice.setState("CA");
         invoice.setZipcode("54321");
         invoice.setItemType("game");
         invoice.setItemId(1);
@@ -164,7 +179,7 @@ public class InvoiceControllerTest {
         invoice.setCity("City");
         invoice.setState("State");
         invoice.setZipcode("54321");
-        invoice.setItemType("game");
+        invoice.setItemType("CA");
         invoice.setItemId(1);
         invoice.setUnitPrice(new BigDecimal(100));
         invoice.setQuantity(1);
