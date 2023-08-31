@@ -5,6 +5,7 @@ type Game {
     studio: String!
     esrbRating: String!
     price: Float!
+    quantity: Float!
 }
 
 type Query {
