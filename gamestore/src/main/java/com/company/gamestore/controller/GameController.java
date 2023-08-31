@@ -21,6 +21,7 @@ public class GameController {
 
     @GetMapping("/games")
     @ResponseStatus(HttpStatus.OK)
+    @QueryMapping
     public List<GameViewModel> getAllGames() {
 
         return gameServiceLayer.findAllGames();
@@ -28,24 +29,28 @@ public class GameController {
 
     @GetMapping("/games/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @QueryMapping
     public GameViewModel getGameById(@PathVariable @Valid int id) {
         return gameServiceLayer.findGame(id);
     }
 
     @GetMapping("/games/studios/{studio}")
     @ResponseStatus(HttpStatus.OK)
+    @QueryMapping
     public List<GameViewModel> getGamesByStudio(@PathVariable @Valid String studio) {
         return gameServiceLayer.findGamesByStudio(studio);
     }
 
     @GetMapping("/games/ratings/{rating}")
     @ResponseStatus(HttpStatus.OK)
+    @QueryMapping
     public List<GameViewModel> getGamesByEsrbRating(@PathVariable @Valid String rating) {
         return gameServiceLayer.findGamesByEsrbRating(rating);
     }
 
     @GetMapping("/games/titles/{title}")
     @ResponseStatus(HttpStatus.OK)
+    @QueryMapping
     public GameViewModel getGameByTitle(@PathVariable @Valid String title) {
         return gameServiceLayer.findGameByTitle(title);
     }

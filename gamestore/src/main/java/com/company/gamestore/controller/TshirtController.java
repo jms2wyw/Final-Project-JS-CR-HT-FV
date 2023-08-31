@@ -1,6 +1,5 @@
 package com.company.gamestore.controller;
 import com.company.gamestore.model.Tshirt;
-import com.company.gamestore.service.TshirtServiceLayer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
