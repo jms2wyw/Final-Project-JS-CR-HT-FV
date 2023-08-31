@@ -1,32 +1,26 @@
-package com.company.gamestore.model;
+package com.company.gamestore.viewmodel;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.company.gamestore.model.Console;
 
-import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-@Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table(name = "console")
-public class Console {
-
-    @Id
-    @Column(name = "console_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ConsoleViewModel implements Serializable {
     private int consoleId;
-
-
+    @NotEmpty(message = "Model cannot be null")
     private String model;
-
+    @NotEmpty(message = "Manufacturer cannot be null")
     private String manufacturer;
-
+    @NotEmpty(message = "Memory amount cannot be null")
     private String memoryAmount;
-
+    @NotEmpty(message = "Processor cannot be null")
     private String processor;
-
+    @NotNull(message = "Price cannot be null")
     private BigDecimal price;
-
+    @NotNull(message = "Quantity cannot be null")
     private int quantity;
 
     public int getConsoleId() {

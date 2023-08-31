@@ -1,0 +1,19 @@
+type Console {
+    id: ID!
+    model: String!
+    manufacturer: String!
+    memory_amount: String!
+    processor: String!
+    price: Float!
+    quantity: Float!
+
+}
+
+type Query {
+
+    findConsoleById(id:ID!): Console
+    findConsoleByManufacturer(manufacturer:String!): [Console]
+    findConsoles: [Console]
+
+
+}
