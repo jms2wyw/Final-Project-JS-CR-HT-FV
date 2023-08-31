@@ -1,29 +1,18 @@
 package com.company.gamestore.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
-import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitiailizer", "handler"})
 @Table(name = "tshirt")
-public class Tshirt implements Serializable {
+public class Tshirt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "tshirt_id")
-    private Integer tshirtId;
-    @javax.validation.constraints.NotNull(message = "Size cannot be null")
+    private int tshirtId;
     private String size;
-    @javax.validation.constraints.NotNull(message = "Color cannot be null")
     private String color;
-    @javax.validation.constraints.NotNull(message = "Description cannot be null")
     private String description;
-    @javax.validation.constraints.NotNull(message = "Price cannot be null")
-    private BigDecimal price;
-    @javax.validation.constraints.NotNull(message = "Quantity cannot be null")
+    private double price;
     private int quantity;
 
     public int getTshirtId() {
@@ -58,11 +47,11 @@ public class Tshirt implements Serializable {
         this.description = description;
     }
 
-    public BigDecimal getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -79,23 +68,21 @@ public class Tshirt implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Tshirt)) return false;
         Tshirt tshirt = (Tshirt) o;
-        return getTshirtId() == tshirt.getTshirtId() &&
-                getQuantity() == tshirt.getQuantity() &&
-                Objects.equals(getSize(), tshirt.getSize()) &&
-                Objects.equals(getColor(), tshirt.getColor()) &&
-                Objects.equals(getDescription(), tshirt.getDescription()) &&
-                Objects.equals(getPrice(), tshirt.getPrice());
+        return getTshirtId() == tshirt.getTshirtId() && Double.compare(tshirt.getPrice(), getPrice()) == 0 && getQuantity() == tshirt.getQuantity() && Objects.equals(getSize(), tshirt.getSize()) && Objects.equals(getColor(), tshirt.getColor()) && Objects.equals(getDescription(), tshirt.getDescription());
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(
-                getTshirtId(),
-                getSize(),
-                getColor(),
-                getDescription(),
-                getPrice(),
-                getQuantity()
-        );
+    public String toString() {
+        return "Tshirt{" +
+                "tshirtId=" + tshirtId +
+                ", size='" + size + '\'' +
+                ", color='" + color + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                '}';
     }
+
+
 }
+
