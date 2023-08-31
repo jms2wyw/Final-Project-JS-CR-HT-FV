@@ -5,10 +5,11 @@ type Game {
     studio: String!
     esrbRating: String!
     price: Float!
+    quantity: Float!
 }
 
 type Query {
-    findAllGames: [Game]
+    findGames: [Game]
     findGameById(id: ID!): Game
     findGameByTitle(title: String!): Game
     findGamesByEsrbRating(esrbRating: String!): [Game]
