@@ -219,7 +219,14 @@ public class ServiceLayer {
         ivm.setProcessingFee(processingFee);
 
         //Total
+        BigDecimal maxtotal = new BigDecimal(999.99);
+
         BigDecimal total = subtotal.add(ivm.getTax()); // Use ivm.getTax()
+
+        if (total.compareTo(maxtotal) > 0) {
+            throw new IllegalArgumentException("Your total cannot exceed 999.99");
+        }
+
         total = total.add(ivm.getProcessingFee()); // Use ivm.getProcessingFee()
         total = total.setScale(2, RoundingMode.UP);
         ivm.setTotal(total);
