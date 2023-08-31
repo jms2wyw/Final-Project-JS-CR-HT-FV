@@ -3,8 +3,11 @@ package com.company.gamestore.controller;
 import com.company.gamestore.service.GameServiceLayer;
 import com.company.gamestore.viewmodel.GameViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -18,6 +21,7 @@ public class GameController {
 
     @GetMapping("/games")
     @ResponseStatus(HttpStatus.OK)
+    @QueryMapping
     public List<GameViewModel> getAllGames() {
 
         return gameServiceLayer.findAllGames();
@@ -25,26 +29,29 @@ public class GameController {
 
     @GetMapping("/games/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public GameViewModel getGameById(@PathVariable @NotNull int id) {
-
+    @QueryMapping
+    public GameViewModel getGameById(@PathVariable @Valid int id) {
         return gameServiceLayer.findGame(id);
     }
 
     @GetMapping("/games/studios/{studio}")
     @ResponseStatus(HttpStatus.OK)
-    public List<GameViewModel> getGamesByStudio(@PathVariable @NotNull String studio) {
+    @QueryMapping
+    public List<GameViewModel> getGamesByStudio(@PathVariable @Valid String studio) {
         return gameServiceLayer.findGamesByStudio(studio);
     }
 
     @GetMapping("/games/ratings/{rating}")
     @ResponseStatus(HttpStatus.OK)
-    public List<GameViewModel> getGamesByEsrbRating(@PathVariable @NotNull String rating) {
+    @QueryMapping
+    public List<GameViewModel> getGamesByEsrbRating(@PathVariable @Valid String rating) {
         return gameServiceLayer.findGamesByEsrbRating(rating);
     }
 
     @GetMapping("/games/titles/{title}")
     @ResponseStatus(HttpStatus.OK)
-    public GameViewModel getGameByTitle(@PathVariable @NotNull String title) {
+    @QueryMapping
+    public GameViewModel getGameByTitle(@PathVariable @Valid String title) {
         return gameServiceLayer.findGameByTitle(title);
     }
 

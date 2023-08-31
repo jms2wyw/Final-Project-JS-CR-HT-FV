@@ -12,7 +12,7 @@ public class GameViewModel {
 
     @NotEmpty(message = "Title cannot be null")
     private String title;
-    @Column(name = "esrb_rating")
+
     @NotEmpty(message = "ESRB Rating cannot be null")
     private String esrbRating;
 

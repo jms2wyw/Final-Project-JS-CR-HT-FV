@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
+import org.webjars.NotFoundException;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -40,6 +41,10 @@ public class GameServiceLayer {
 
     @org.springframework.transaction.annotation.Transactional
     public GameViewModel saveGame(GameViewModel viewModel) {
+        if (viewModel.equals(null)) {
+            throw new NotFoundException("Game not found!");
+        }
+
         //Persist the game
         Game newGame = new Game();
         newGame.setTitle(viewModel.getTitle());
@@ -57,6 +62,10 @@ public class GameServiceLayer {
 
     @org.springframework.transaction.annotation.Transactional
     public GameViewModel updateGame(GameViewModel gameViewModel) {
+        if (gameViewModel.equals(null)) {
+            throw new NotFoundException("Game not found!");
+        }
+
         Game game = new Game();
         game.setGameId(gameViewModel.getGameId());
         game.setTitle(gameViewModel.getTitle());
@@ -84,7 +93,11 @@ public class GameServiceLayer {
     public GameViewModel findGame(int id) {
         Optional<Game> target = gameRepository.findById(id);
 
-        return target.isPresent() ? buildGameViewModel(target.get()) : null;
+        if (target.isEmpty()) {
+            throw new NotFoundException("Game not found!");
+        }
+
+        return buildGameViewModel(target.get());
     }
 
     public List<GameViewModel> findAllGames() {
@@ -126,6 +139,10 @@ public class GameServiceLayer {
     public GameViewModel findGameByTitle(String title) {
         Optional<Game> target = gameRepository.findByTitle(title);
 
-        return target.isPresent() ? buildGameViewModel(target.get()) : null;
+        if (target.isEmpty()) {
+            throw new NotFoundException("Game not found!");
+        }
+
+        return buildGameViewModel(target.get());
     }
 }

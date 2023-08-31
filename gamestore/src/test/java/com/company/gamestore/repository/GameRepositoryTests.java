@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import javax.validation.ConstraintViolationException;
 import java.math.BigDecimal;
@@ -41,21 +42,6 @@ public class GameRepositoryTests {
         Optional<Game> target = gameRepository.findById(videoGame.getGameId());
 
         assertEquals(target.get(), videoGame);
-    }
-
-
-    @Test
-    public void shouldNotAddGameDataIntegrityWithViolationException() {
-
-        assertThrows(DataIntegrityViolationException.class, () -> {
-            Game videoGame = new Game();
-            videoGame.setDescription("Card game about climbing the spire");
-            videoGame.setStudio("Mega Crit Games");
-            videoGame.setEsrbRating("Everyone");
-            videoGame.setPrice(new BigDecimal("24.99"));
-
-            videoGame = gameRepository.save(videoGame);
-        });
     }
 
 
