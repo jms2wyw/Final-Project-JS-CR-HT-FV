@@ -1,4 +1,4 @@
-package com.company.gamestore.controllerTest;
+package com.company.gamestore.controller;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import java.math.BigDecimal;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +40,7 @@ public class TshirtControllerTest {
         tshirt1.setSize("M");
         tshirt1.setColor("Red");
         tshirt1.setDescription("Short-sleeve");
-        tshirt1.setPrice(19.99);
+        tshirt1.setPrice(new BigDecimal("19.99"));
         tshirt1.setQuantity(10);
 
         Tshirt tshirt2 = new Tshirt();
@@ -47,7 +48,7 @@ public class TshirtControllerTest {
         tshirt2.setSize("L");
         tshirt2.setColor("Blue");
         tshirt2.setDescription("Long-sleeve");
-        tshirt2.setPrice(29.99);
+        tshirt2.setPrice(new BigDecimal("29.99"));
         tshirt2.setQuantity(5);
 
         tshirtList = Arrays.asList(tshirt1, tshirt2);
@@ -96,7 +97,7 @@ public class TshirtControllerTest {
         inputTshirt.setSize("XL");
         inputTshirt.setColor("Green");
         inputTshirt.setDescription("Short-sleeve");
-        inputTshirt.setPrice(19.99);
+        inputTshirt.setPrice(new BigDecimal("19.99"));
         inputTshirt.setQuantity(20);
 
         Tshirt expectedOutputTshirt = new Tshirt();
@@ -104,7 +105,7 @@ public class TshirtControllerTest {
         expectedOutputTshirt.setSize("XL");
         expectedOutputTshirt.setColor("Green");
         expectedOutputTshirt.setDescription("Short-sleeve");
-        expectedOutputTshirt.setPrice(19.99);
+        expectedOutputTshirt.setPrice(new BigDecimal("19.99"));
         expectedOutputTshirt.setQuantity(20);
 
         when(tshirtServiceLayer.createTshirt(inputTshirt)).thenReturn(expectedOutputTshirt);
@@ -124,7 +125,7 @@ public class TshirtControllerTest {
         updatedTshirt.setSize("M");
         updatedTshirt.setColor("Purple");
         updatedTshirt.setDescription("Long-sleeve");
-        updatedTshirt.setPrice(24.99);
+        updatedTshirt.setPrice(new BigDecimal("24.99"));
         updatedTshirt.setQuantity(5);
 
         mockMvc.perform(

@@ -1,6 +1,7 @@
 package com.company.gamestore.model;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
@@ -12,7 +13,7 @@ public class Tshirt {
     private String size;
     private String color;
     private String description;
-    private double price;
+    private BigDecimal price; // Changed type from double to BigDecimal
     private int quantity;
 
     public int getTshirtId() {
@@ -47,11 +48,11 @@ public class Tshirt {
         this.description = description;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() { // Changed return type to BigDecimal
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) { // Changed parameter type to BigDecimal
         this.price = price;
     }
 
@@ -68,7 +69,12 @@ public class Tshirt {
         if (this == o) return true;
         if (!(o instanceof Tshirt)) return false;
         Tshirt tshirt = (Tshirt) o;
-        return getTshirtId() == tshirt.getTshirtId() && Double.compare(tshirt.getPrice(), getPrice()) == 0 && getQuantity() == tshirt.getQuantity() && Objects.equals(getSize(), tshirt.getSize()) && Objects.equals(getColor(), tshirt.getColor()) && Objects.equals(getDescription(), tshirt.getDescription());
+        return getTshirtId() == tshirt.getTshirtId() &&
+                getQuantity() == tshirt.getQuantity() &&
+                Objects.equals(getSize(), tshirt.getSize()) &&
+                Objects.equals(getColor(), tshirt.getColor()) &&
+                Objects.equals(getDescription(), tshirt.getDescription()) &&
+                Objects.equals(getPrice(), tshirt.getPrice()); // Use equals for BigDecimal
     }
 
     @Override
@@ -78,11 +84,8 @@ public class Tshirt {
                 ", size='" + size + '\'' +
                 ", color='" + color + '\'' +
                 ", description='" + description + '\'' +
-                ", price=" + price +
+                ", price=" + price + // No change needed here
                 ", quantity=" + quantity +
                 '}';
     }
-
-
 }
-
