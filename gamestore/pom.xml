@@ -52,14 +52,11 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-=======
->>>>>>> GameRestApi
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
 			<version>1.6.8</version>
 		</dependency>
-<<<<<<< HEAD
-=======
+
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -77,7 +74,7 @@
 			<artifactId>spring-graphql-test</artifactId>
 			<scope>test</scope>
 		</dependency>
->>>>>>> GameRestApi
+
 	</dependencies>
 
 	<build>
