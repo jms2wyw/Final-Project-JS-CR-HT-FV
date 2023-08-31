@@ -17,15 +17,11 @@ public class Console implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int consoleId;
 
-    @javax.validation.constraints.NotNull(message = "Model cannot be null")
     private String model;
-    @javax.validation.constraints.NotNull(message = "Memory amount cannot be null")
+    private String manufacturer;
     private String memory_amount;
-    @javax.validation.constraints.NotNull(message = "Processor cannot be null")
     private String processor;
-    @javax.validation.constraints.NotNull(message = "Price cannot be null")
     private BigDecimal price;
-    @javax.validation.constraints.NotNull(message = "Quantity cannot be null")
     private int quantity;
 
     public int getConsoleId() {
@@ -44,11 +40,19 @@ public class Console implements Serializable {
         this.model = model;
     }
 
-    public String getMemory_amount() {
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    public String getMemoryAmount() {
         return memory_amount;
     }
 
-    public void setMemory_amount(String memory_amount) {
+    public void setMemoryAmount(String memory_amount) {
         this.memory_amount = memory_amount;
     }
 
@@ -79,25 +83,13 @@ public class Console implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Console)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Console console = (Console) o;
-        return getConsoleId() == console.getConsoleId() &&
-                getQuantity() == console.getQuantity() &&
-                Objects.equals(getModel(), console.getModel()) &&
-                Objects.equals(getMemory_amount(), console.getMemory_amount()) &&
-                Objects.equals(getProcessor(), console.getProcessor()) &&
-                Objects.equals(getPrice(), console.getPrice());
+        return consoleId == console.consoleId && quantity == console.quantity && Objects.equals(model, console.model) && Objects.equals(manufacturer, console.manufacturer) && Objects.equals(memory_amount, console.memory_amount) && Objects.equals(processor, console.processor) && Objects.equals(price, console.price);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(
-                getConsoleId(),
-                getModel(),
-                getMemory_amount(),
-                getProcessor(),
-                getPrice(),
-                getQuantity()
-        );
+        return Objects.hash(consoleId, model, manufacturer, memory_amount, processor, price, quantity);
     }
 }

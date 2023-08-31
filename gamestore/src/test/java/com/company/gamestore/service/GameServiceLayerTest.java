@@ -2,6 +2,7 @@ package com.company.gamestore.service;
 
 import com.company.gamestore.model.Game;
 import com.company.gamestore.repository.GameRepository;
+import com.company.gamestore.viewmodel.GameViewModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,10 +15,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class GameServiceLayerTest {
-
-    GameServiceLayer gameServiceLayer;
-
     GameRepository gameRepository;
+    GameServiceLayer gameServiceLayer;
 
     private void setUpGameRepositoryMock() {
         gameRepository = mock(GameRepository.class);
@@ -46,12 +45,14 @@ public class GameServiceLayerTest {
 
     @BeforeEach
     public void setup() {
+
         setUpGameRepositoryMock();
+        gameServiceLayer = new GameServiceLayer(gameRepository);
     }
 
     @Test
-    public void shouldSaveGame() {
-        Game expectedResult = new Game();
+    public void shouldFindGame() {
+        GameViewModel expectedResult = new GameViewModel();
         expectedResult.setGameId(1);
         expectedResult.setTitle("Minecraft");
         expectedResult.setDescription("Open world block building game");
@@ -59,19 +60,21 @@ public class GameServiceLayerTest {
         expectedResult.setEsrbRating("Everyone");
         expectedResult.setPrice(new BigDecimal("34.99"));
 
-        //Example of what someone would pass in
-        Game game = new Game();
-        game.setTitle("Minecraft");
-        game.setDescription("Open world block building game");
-        game.setStudio("Mojang");
-        game.setEsrbRating("Everyone");
-        game.setPrice(new BigDecimal("34.99"));
-
-        // Test checks to see if object is stored/saved correctly
-        game = gameRepository.save(game);
-
-        assertEquals(expectedResult, game);
+        GameViewModel expectedViewModel = gameServiceLayer.findGame(1);
+        assertEquals(expectedViewModel, expectedResult);
     }
 
+    @Test
+    public void shouldFindAllGames() {
+        GameViewModel expectedResult = new GameViewModel();
+        expectedResult.setGameId(1);
+        expectedResult.setTitle("Minecraft");
+        expectedResult.setDescription("Open world block building game");
+        expectedResult.setStudio("Mojang");
+        expectedResult.setEsrbRating("Everyone");
+        expectedResult.setPrice(new BigDecimal("34.99"));
 
+        List<GameViewModel> findGames = gameServiceLayer.findAllGames();
+        assertEquals(expectedResult, findGames.get(0));
+    }
 }

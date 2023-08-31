@@ -86,12 +86,12 @@ public class GameControllerTests {
         String inputJson = mapper.writeValueAsString(gameList.get(0));
 
         //Mock server calls
-        mockMvc.perform(put("/games/1", inputJson)
+        mockMvc.perform(put("/games", inputJson)
                 .content(inputJson)
                 .contentType(MediaType.APPLICATION_JSON)
         )
                 .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isOk());
     }
 
 

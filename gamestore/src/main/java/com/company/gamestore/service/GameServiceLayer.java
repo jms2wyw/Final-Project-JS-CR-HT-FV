@@ -78,7 +78,7 @@ public class GameServiceLayer {
         //Update the album
         try {
             game = gameRepository.save(game);
-
+            System.out.println(game);
             return buildGameViewModel(game);
         } catch (IllegalArgumentException e) {
             return null;
