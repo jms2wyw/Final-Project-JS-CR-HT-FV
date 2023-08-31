@@ -1,19 +1,31 @@
 package com.company.gamestore.viewModel;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 public class InvoiceViewModel {
 
     private int invoiceId;
+    @NotEmpty(message = "Name cannot be null")
     private String name;
+    @NotEmpty(message = "Street cannot be null")
     private String street;
+    @NotEmpty(message = "City cannot be null")
     private String city;
+    @NotEmpty(message = "State cannot be null")
+    @Size(min = 2, max = 2, message = "State must be a 2-character code")
     private String state;
+    @NotEmpty(message = "Zipcode cannot be null")
     private String zipcode;
+    @NotEmpty(message = "Item type cannot be null")
     private String itemType;
+    @NotNull(message = "Item id cannot be null")
     private int itemId;
-    private BigDecimal unitPrice;
+    @NotNull(message = "Quantity cannot be null")
     private int quantity;
+    private BigDecimal unitPrice;
     private BigDecimal subtotal;
     private BigDecimal tax;
     private BigDecimal processingFee;

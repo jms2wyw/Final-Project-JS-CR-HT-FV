@@ -6,15 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
-import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 @SpringBootTest
 public class InvoiceRepositoryTest {
@@ -36,7 +32,7 @@ public class InvoiceRepositoryTest {
         invoice.setName("John Smith");
         invoice.setStreet("123 Street");
         invoice.setCity("City");
-        invoice.setState("State");
+        invoice.setState("CA");
         invoice.setZipcode("54321");
         invoice.setItemType("game");
         invoice.setItemId(1);
@@ -64,7 +60,7 @@ public class InvoiceRepositoryTest {
         invoice.setName("John Smith");
         invoice.setStreet("123 Street");
         invoice.setCity("City");
-        invoice.setState("State");
+        invoice.setState("CA");
         invoice.setZipcode("54321");
         invoice.setItemType("game");
         invoice.setItemId(1);
@@ -92,7 +88,7 @@ public class InvoiceRepositoryTest {
         invoice.setName("John Smith");
         invoice.setStreet("123 Street");
         invoice.setCity("City");
-        invoice.setState("State");
+        invoice.setState("CA");
         invoice.setZipcode("54321");
         invoice.setItemType("game");
         invoice.setItemId(1);
@@ -108,7 +104,7 @@ public class InvoiceRepositoryTest {
         invoice2.setName("John Smith");
         invoice2.setStreet("123 Street");
         invoice2.setCity("City");
-        invoice2.setState("State");
+        invoice2.setState("CA");
         invoice2.setZipcode("54321");
         invoice2.setItemType("shirt");
         invoice2.setItemId(1);
@@ -128,11 +124,6 @@ public class InvoiceRepositoryTest {
         assertEquals(invoiceList.size(), 2);
     }
 
-
-
-
-
-
     @Test
     public void shouldFindInvoiceByName() {
 
@@ -141,7 +132,7 @@ public class InvoiceRepositoryTest {
         invoice.setName("John Smith");
         invoice.setStreet("123 Street");
         invoice.setCity("City");
-        invoice.setState("State");
+        invoice.setState("CA");
         invoice.setZipcode("54321");
         invoice.setItemType("game");
         invoice.setItemId(1);
@@ -157,7 +148,7 @@ public class InvoiceRepositoryTest {
         invoice2.setName("John Smith");
         invoice2.setStreet("123 Street");
         invoice2.setCity("City");
-        invoice2.setState("State");
+        invoice2.setState("CA");
         invoice2.setZipcode("54321");
         invoice2.setItemType("shirt");
         invoice2.setItemId(1);

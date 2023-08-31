@@ -3,6 +3,9 @@ package com.company.gamestore.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -17,24 +20,22 @@ public class Invoice implements Serializable {
     @Column(name = "invoice_id")
     private int invoiceId;
 
-    @javax.validation.constraints.NotNull(message = "Name cannot be null")
+    @NotEmpty(message = "Name cannot be null")
     private String name;
-    @javax.validation.constraints.NotNull(message = "Street cannot be null")
+    @NotEmpty(message = "Street cannot be null")
     private String street;
-    @javax.validation.constraints.NotNull(message = "City cannot be null")
+    @NotEmpty(message = "City cannot be null")
     private String city;
-    @javax.validation.constraints.NotNull(message = "State cannot be null")
+    @NotEmpty(message = "State cannot be null")
+    @Size(min = 2, max = 2, message = "State must be a 2-character code")
     private String state;
-    @javax.validation.constraints.NotNull(message = "Zipcode cannot be null")
+    @NotEmpty(message = "Zipcode cannot be null")
     private String zipcode;
-
-    @javax.validation.constraints.NotNull(message = "Item type cannot be null")
-    //@Column(name = "item_type")
+    @NotEmpty(message = "Item type cannot be null")
     private String itemType;
-    @javax.validation.constraints.NotNull(message = "Item id cannot be null")
-    //@Column(name = "item_id")
+    @NotNull(message = "Item id cannot be null")
     private int itemId;
-    @javax.validation.constraints.NotNull(message = "Quantity cannot be null")
+    @NotNull(message = "Quantity cannot be null")
     private int quantity;
 
     private BigDecimal unitPrice;

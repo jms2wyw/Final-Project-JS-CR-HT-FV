@@ -52,11 +52,17 @@ public class ServiceLayer {
         invoice.setZipcode(viewModel.getZipcode());
         invoice.setItemType(viewModel.getItemType());
         invoice.setItemId(viewModel.getItem_id());
-        invoice.setUnitPrice(viewModel.getUnitPrice());
         invoice.setQuantity(viewModel.getQuantity());
 
         InvoiceViewModel ivm = buildInvoiceViewModel(invoice);
 
+        viewModel.setUnitPrice(ivm.getUnitPrice());
+        viewModel.setSubtotal(ivm.getSubtotal());
+        viewModel.setTax(ivm.getTax());
+        viewModel.setProcessingFee(ivm.getProcessingFee());
+        viewModel.setTotal(ivm.getTotal());
+
+        invoice.setUnitPrice(ivm.getUnitPrice());
         invoice.setSubtotal(ivm.getSubtotal());
         invoice.setTax(ivm.getTax());
         invoice.setProcessingFee(ivm.getProcessingFee());
@@ -91,11 +97,36 @@ public class ServiceLayer {
         return ivmList;
     }
 
-    //Need the method to find invoice by state
+    public List<InvoiceViewModel> findInvoiceByName(String name) {
+
+        List<Invoice> invoiceList = invoiceRepository.findByName(name);
+
+        List<InvoiceViewModel> ivmList = new ArrayList<>();
+
+        for (Invoice invoice : invoiceList) {
+            InvoiceViewModel ivm = buildInvoiceViewModel(invoice);
+            ivmList.add(ivm);
+        }
+
+        return ivmList;
+
+    }
 
 
     //Build view model
     private InvoiceViewModel buildInvoiceViewModel(Invoice invoice) {
+
+        // Assemble the InvoiceViewModel
+        InvoiceViewModel ivm = new InvoiceViewModel();
+        ivm.setInvoiceId(invoice.getInvoiceId());
+        ivm.setName(invoice.getName());
+        ivm.setStreet(invoice.getStreet());
+        ivm.setCity(invoice.getCity());
+        ivm.setState(invoice.getState());
+        ivm.setZipcode(invoice.getZipcode());
+        ivm.setItemType(invoice.getItemType());
+        ivm.setItemId(invoice.getItemId());
+        ivm.setQuantity(invoice.getQuantity());
 
         //Business Logic
         //Validate Item Type
@@ -113,10 +144,10 @@ public class ServiceLayer {
             throw new IllegalArgumentException("Invalid item id");
         }
 
+        BigDecimal subtotal = BigDecimal.ZERO;
         //Validate quantity and update quantity
         if(itemType.equals("game")){
             Optional<Game> game = gameRepository.findById(itemId);
-            game.get().getQuantity();
 
             if(game.get().getQuantity() < invoice.getQuantity()){
                 throw new IllegalArgumentException("Invalid quantity");
@@ -125,16 +156,15 @@ public class ServiceLayer {
                 game.get().setQuantity(updateQuantity);
 
                 //Calculate Subtotal
-                BigDecimal subtotal = game.get().getPrice().multiply(new BigDecimal(invoice.getQuantity()));
+                subtotal = game.get().getPrice().multiply(new BigDecimal(invoice.getQuantity()));
                 BigDecimal subtotalFormatted = subtotal.setScale(2, RoundingMode.UP);
-                invoice.setUnitPrice(game.get().getPrice());
-                invoice.setSubtotal(subtotalFormatted);
+                ivm.setUnitPrice(game.get().getPrice());
+                ivm.setSubtotal(subtotalFormatted);
 
             }
 
         }else if(itemType.equals("t-shirt")){
             Optional<Tshirt> tshirt = tshirtRepository.findById(itemId);
-            tshirt.get().getQuantity();
 
             if(tshirt.get().getQuantity() < invoice.getQuantity()){
                 throw new IllegalArgumentException("Invalid quantity");
@@ -143,14 +173,13 @@ public class ServiceLayer {
                 tshirt.get().setQuantity(updateQuantity);
 
                 //Calculate Subtotal
-                BigDecimal subtotal = tshirt.get().getPrice().multiply(new BigDecimal(invoice.getQuantity()));
+                subtotal = tshirt.get().getPrice().multiply(new BigDecimal(invoice.getQuantity()));
                 BigDecimal subtotalFormatted = subtotal.setScale(2, RoundingMode.UP);
-                invoice.setUnitPrice(tshirt.get().getPrice());
-                invoice.setSubtotal(subtotalFormatted);
+                ivm.setUnitPrice(tshirt.get().getPrice());
+                ivm.setSubtotal(subtotalFormatted);
             }
         }else if(itemType.equals("console")){
             Optional<Console> console = consoleRepository.findById(itemId);
-            console.get().getQuantity();
 
             if(console.get().getQuantity() < invoice.getQuantity()){
                 throw new IllegalArgumentException("Invalid quantity");
@@ -159,10 +188,10 @@ public class ServiceLayer {
                 console.get().setQuantity(updateQuantity);
 
                 //Calculate Subtotal
-                BigDecimal subtotal = console.get().getPrice().multiply(new BigDecimal(invoice.getQuantity()));
+                subtotal = console.get().getPrice().multiply(new BigDecimal(invoice.getQuantity()));
                 BigDecimal subtotalFormatted = subtotal.setScale(2, RoundingMode.UP);
-                invoice.setUnitPrice(console.get().getPrice());
-                invoice.setSubtotal(subtotalFormatted);
+                ivm.setUnitPrice(console.get().getPrice());
+                ivm.setSubtotal(subtotalFormatted);
             }
         }
 
@@ -172,9 +201,9 @@ public class ServiceLayer {
 
         if (state.isPresent()) {
             stateTax = state.get().getRate();
-            stateTax = invoice.getSubtotal().multiply(stateTax);
-            invoice.setTax(stateTax);
-        }else{
+            stateTax = subtotal.multiply(stateTax); // Use the calculated subtotal
+            ivm.setTax(stateTax);
+        } else {
             throw new IllegalArgumentException("Invalid state");
         }
 
@@ -187,32 +216,13 @@ public class ServiceLayer {
         }
 
         processingFee = processingFee.setScale(2, RoundingMode.UP);
-        invoice.setProcessingFee(processingFee);
+        ivm.setProcessingFee(processingFee);
 
         //Total
-        BigDecimal total = invoice.getSubtotal().add(invoice.getTax());
-        total = total.add(invoice.getProcessingFee());
+        BigDecimal total = subtotal.add(ivm.getTax()); // Use ivm.getTax()
+        total = total.add(ivm.getProcessingFee()); // Use ivm.getProcessingFee()
         total = total.setScale(2, RoundingMode.UP);
-        invoice.setTotal(total);
-
-
-        // Assemble the InvoiceViewModel
-        InvoiceViewModel ivm = new InvoiceViewModel();
-        ivm.setInvoiceId(invoice.getInvoiceId());
-        ivm.setName(invoice.getName());
-        ivm.setStreet(invoice.getStreet());
-        ivm.setCity(invoice.getCity());
-        ivm.setState(invoice.getState());
-        ivm.setZipcode(invoice.getZipcode());
-        ivm.setItemType(invoice.getItemType());
-        ivm.setItemId(invoice.getItemId());
-        ivm.setUnitPrice(invoice.getUnitPrice());
-        ivm.setQuantity(invoice.getQuantity());
-
-        ivm.setSubtotal(invoice.getSubtotal());
-        ivm.setTax(invoice.getTax());
-        ivm.setProcessingFee(invoice.getProcessingFee());
-        ivm.setTotal(invoice.getTotal());
+        ivm.setTotal(total);
 
         // Return the InvoiceViewModel
         return ivm;
