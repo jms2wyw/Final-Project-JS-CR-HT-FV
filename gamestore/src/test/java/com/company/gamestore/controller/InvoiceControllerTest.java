@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -91,7 +92,10 @@ public class InvoiceControllerTest {
         invoice.setTotal(new BigDecimal(100));
         invoice = invoiceRepo.save(invoice);
 
-        mockMvc.perform(get("/invoice/read/{id}", 1))
+        Integer id = invoice.getInvoiceId();
+        String invoiceId = id.toString();
+
+        mockMvc.perform(get("/invoice/read/{id}",invoiceId))
                 .andExpect(status().isOk());
 
 
@@ -116,25 +120,24 @@ public class InvoiceControllerTest {
         invoice.setTotal(new BigDecimal(100));
         invoice = invoiceRepo.save(invoice);
 
-        invoice = new Invoice();
-        invoice.setName("Jane Doe");
-        invoice.setStreet("123 Street");
-        invoice.setCity("City");
-        invoice.setState("CA");
-        invoice.setZipcode("54321");
-        invoice.setItemType("shirt");
-        invoice.setItemId(1);
-        invoice.setUnitPrice(new BigDecimal(100));
-        invoice.setQuantity(1);
-        invoice.setSubtotal(new BigDecimal(100));
-        invoice.setTax(new BigDecimal(8.25));
-        invoice.setProcessingFee(new BigDecimal(1.75));
-        invoice.setTotal(new BigDecimal(100));
-        invoice = invoiceRepo.save(invoice);
+        Invoice secondInvoice = new Invoice();
+        secondInvoice.setName("Jane Doe");
+        secondInvoice.setStreet("123 Street");
+        secondInvoice.setCity("City");
+        secondInvoice.setState("CA");
+        secondInvoice.setZipcode("54321");
+        secondInvoice.setItemType("shirt");
+        secondInvoice.setItemId(1);
+        secondInvoice.setUnitPrice(new BigDecimal(100));
+        secondInvoice.setQuantity(1);
+        secondInvoice.setSubtotal(new BigDecimal(100));
+        secondInvoice.setTax(new BigDecimal(8.25));
+        secondInvoice.setProcessingFee(new BigDecimal(1.75));
+        secondInvoice.setTotal(new BigDecimal(100));
+        secondInvoice = invoiceRepo.save(invoice);
 
-
-
-        String json = mapper.writeValueAsString(invoice);
+        List<Invoice> invoiceList = invoiceRepo.findAll();
+        String json = mapper.writeValueAsString(invoiceList);
 
         mockMvc.perform(get("/invoice/read")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -164,7 +167,7 @@ public class InvoiceControllerTest {
 
         String json = mapper.writeValueAsString(invoice);
 
-        mockMvc.perform(get("/invoice/read/name/{name}", "John Smith")
+        mockMvc.perform(get("/invoice/read/name/{name}", "1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk());
