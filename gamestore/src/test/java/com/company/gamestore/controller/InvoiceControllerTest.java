@@ -3,7 +3,6 @@ package com.company.gamestore.controller;
 import com.company.gamestore.model.Invoice;
 import com.company.gamestore.model.Tshirt;
 import com.company.gamestore.repository.InvoiceRepository;
-import com.company.gamestore.repository.TshirtRepository;
 import com.company.gamestore.service.ServiceLayer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@AutoConfigureMockMvc(addFilters = false)
+@AutoConfigureMockMvc
 public class InvoiceControllerTest {
 
     @Autowired

@@ -104,7 +104,7 @@ public class ServiceLayerTest {
         console.setModel("PS5");
         console.setManufacturer("Sony");
         console.setProcessor("AMD");
-        console.setMemory_amount("32 GB");
+        console.setMemoryAmount("32 GB");
         console.setPrice(new BigDecimal(1));
         console.setQuantity(1);
 
@@ -112,7 +112,7 @@ public class ServiceLayerTest {
         console2.setModel("PS5");
         console2.setManufacturer("Sony");
         console2.setProcessor("AMD");
-        console2.setMemory_amount("32 GB");
+        console2.setMemoryAmount("32 GB");
         console2.setPrice(new BigDecimal(1));
         console2.setQuantity(1);
 
