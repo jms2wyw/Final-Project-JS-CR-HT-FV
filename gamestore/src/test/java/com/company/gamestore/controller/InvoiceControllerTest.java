@@ -56,7 +56,7 @@ public class InvoiceControllerTest {
     @Test
     public void testCreateInvoice() throws Exception {
         Tshirt tshirt1 = new Tshirt();
-        tshirt1.setTshirtId(1);
+        //tshirt1.setTshirtId(1);
         tshirt1.setSize("M");
         tshirt1.setColor("Red");
         tshirt1.setDescription("Short-sleeve");
@@ -90,7 +90,6 @@ public class InvoiceControllerTest {
     public void testGetInvoiceById() throws Exception {
 
         Tshirt tshirt1 = new Tshirt();
-        tshirt1.setTshirtId(1);
         tshirt1.setSize("M");
         tshirt1.setColor("Red");
         tshirt1.setDescription("Short-sleeve");
@@ -129,7 +128,7 @@ public class InvoiceControllerTest {
         tshirt1.setColor("Red");
         tshirt1.setDescription("Short-sleeve");
         tshirt1.setPrice(new BigDecimal("19.99"));
-        tshirt1.setQuantity(10);
+        tshirt1.setQuantity(100);
         tshirt1 = tshirtRepo.save(tshirt1);
 
 
@@ -166,7 +165,6 @@ public class InvoiceControllerTest {
     @Test
     public void testGetInvoiceByName() throws Exception {
         Tshirt tshirt1 = new Tshirt();
-        tshirt1.setTshirtId(1);
         tshirt1.setSize("M");
         tshirt1.setColor("Red");
         tshirt1.setDescription("Short-sleeve");
@@ -200,7 +198,6 @@ public class InvoiceControllerTest {
     public void testWrongCreateInvoice() throws Exception {
 
         Tshirt tshirt1 = new Tshirt();
-        tshirt1.setTshirtId(1);
         tshirt1.setSize("M");
         tshirt1.setColor("Red");
         tshirt1.setDescription("Short-sleeve");
