@@ -3,13 +3,14 @@ package com.company.gamestore.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "console")
-public class Console {
+public class Console implements Serializable {
 
     @Id
     @Column(name = "console_id")
@@ -18,6 +19,7 @@ public class Console {
 
 
     private String model;
+
 
     private String manufacturer;
 
@@ -88,8 +90,9 @@ public class Console {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Console)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Console console = (Console) o;
+
         return getConsoleId() == console.getConsoleId() &&
                 getQuantity() == console.getQuantity() &&
                 Objects.equals(getModel(), console.getModel()) &&
@@ -97,6 +100,7 @@ public class Console {
                 Objects.equals(getProcessor(), console.getProcessor()) &&
                 Objects.equals(getPrice(), console.getPrice())&&
                 Objects.equals(getManufacturer(), console.getManufacturer());
+
     }
 
     @Override
@@ -110,5 +114,6 @@ public class Console {
                 getQuantity(),
                 getManufacturer()
         );
+
     }
 }
