@@ -21,9 +21,7 @@ public class Console implements Serializable {
     private String manufacturer;
     private String memoryAmount;
     private String processor;
-
     private BigDecimal price;
-
     private int quantity;
 
     public int getConsoleId() {

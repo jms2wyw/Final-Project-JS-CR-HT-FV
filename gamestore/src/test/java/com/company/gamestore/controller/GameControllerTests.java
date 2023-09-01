@@ -73,9 +73,9 @@ public class GameControllerTests {
 
         //Mock server calls
         mockMvc.perform(post("/games")
-                .content(inputJson)
-                .contentType(MediaType.APPLICATION_JSON)
-        )
+                        .content(inputJson)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
                 .andDo(print())
                 .andExpect(status().isCreated());
     }
@@ -86,12 +86,12 @@ public class GameControllerTests {
         String inputJson = mapper.writeValueAsString(gameList.get(0));
 
         //Mock server calls
-        mockMvc.perform(put("/games", inputJson)
-                .content(inputJson)
-                .contentType(MediaType.APPLICATION_JSON)
-        )
+        mockMvc.perform(put("/games")  // Removed the '/1', to match the @PutMapping in the controller
+                        .content(inputJson)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk()); // You're expecting 201 Created but your controller is set to return 200 OK
     }
 
 

@@ -18,8 +18,9 @@ type Game {
     quantity: Float!
 }
 
+
+
 type Query {
-    findGames: [Game]
     findConsoleById(id:ID!): Console
     findConsoleByManufacturer(manufacturer:String!): [Console]
     findConsoles: [Console]
