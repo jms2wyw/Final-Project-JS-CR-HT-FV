@@ -31,8 +31,7 @@ public class ServiceLayerTest {
         setUpTshirtRepositoryMock();
         setUpConsoleRepositoryMock();
         setUpGameRepositoryMock();
-        setUpTaxRepositoryMock();
-        setUpFeeRepositoryMock();
+
 
         service = new ServiceLayer(invoiceRepository, tshirtRepository, consoleRepository, gameRepository, taxRepository, feeRepository);
 
@@ -151,20 +150,12 @@ public class ServiceLayerTest {
         doReturn(gameList).when(gameRepository).findAll();
 
     }
-    private void setUpTaxRepositoryMock(){
-        //taxRepository = mock(TaxRepository.class);
-        //Tax tax = new Tax();
-        //tax.setRate(new BigDecimal(.06));
-        //tax.setState("CA");
 
-    }
-    private void setUpFeeRepositoryMock(){
-
-    }
 
     @Test
     public void shouldSaveInvoice() {
         // Arrange
+
         InvoiceViewModel expectedResult = new InvoiceViewModel();
         expectedResult.setInvoiceId(1);
         expectedResult.setName("Frank");
@@ -174,13 +165,7 @@ public class ServiceLayerTest {
         expectedResult.setZipcode("54321");
         expectedResult.setItemType("t-shirt");
         expectedResult.setItemId(1);
-        expectedResult.setUnitPrice(new BigDecimal(10));
         expectedResult.setQuantity(10);
-        expectedResult.setSubtotal(new BigDecimal(100));
-        expectedResult.setTax(new BigDecimal(6));
-        expectedResult.setProcessingFee(new BigDecimal(1.98));
-        expectedResult.setTotal(new BigDecimal(107.98));
-
 
         InvoiceViewModel ivm = new InvoiceViewModel();
         ivm.setInvoiceId(1);
@@ -191,12 +176,7 @@ public class ServiceLayerTest {
         ivm.setZipcode("54321");
         ivm.setItemType("t-shirt");
         ivm.setItemId(1);
-        ivm.setUnitPrice(new BigDecimal(10));
         ivm.setQuantity(10);
-        ivm.setSubtotal(new BigDecimal(100));
-        ivm.setTax(new BigDecimal(6));
-        ivm.setProcessingFee(new BigDecimal(1.98));
-        ivm.setTotal(new BigDecimal(107.98));
 
         // ACT
         ivm = service.saveInvoice(ivm);
@@ -207,7 +187,7 @@ public class ServiceLayerTest {
     @Test
     public void shouldFindInvoice() {
         // Arrange
-        InvoiceViewModel ivm = new InvoiceViewModel();
+        Invoice ivm = new Invoice();
         ivm.setInvoiceId(1);
         ivm.setName("Frank");
         ivm.setStreet("Street");
@@ -216,12 +196,7 @@ public class ServiceLayerTest {
         ivm.setZipcode("54321");
         ivm.setItemType("t-shirt");
         ivm.setItemId(1);
-        ivm.setUnitPrice(new BigDecimal(10));
         ivm.setQuantity(10);
-        ivm.setSubtotal(new BigDecimal(100));
-        ivm.setTax(new BigDecimal(6));
-        ivm.setProcessingFee(new BigDecimal(1.98));
-        ivm.setTotal(new BigDecimal(107.98));
 
         // ACT
         InvoiceViewModel invoiceToFind = service.findInvoice(1);

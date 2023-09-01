@@ -2,17 +2,19 @@ package com.company.gamestore.controller;
 
 import com.company.gamestore.model.Invoice;
 import com.company.gamestore.model.Tshirt;
-import com.company.gamestore.repository.InvoiceRepository;
-import com.company.gamestore.repository.TshirtRepository;
+import com.company.gamestore.repository.*;
 import com.company.gamestore.service.ServiceLayer;
+import com.company.gamestore.viewModel.InvoiceViewModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import javax.swing.plaf.nimbus.State;
 import java.math.BigDecimal;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -30,37 +32,48 @@ public class InvoiceControllerTest {
     private InvoiceRepository invoiceRepo;
 
     @Autowired
+    private TshirtRepository tshirtRepo;
+
+    @Autowired
+    private ConsoleRepository consoleRepository;
+
+    @Autowired
+    private GameRepository gameRepository;
+
+    @Autowired
+    private TaxRepository taxRepo;
+
+    @Autowired
+    private FeeRepository feeRepo;
+
+    @Autowired
     ServiceLayer serviceLayer;
 
 
     ObjectMapper mapper = new ObjectMapper();
 
+
     @Test
     public void testCreateInvoice() throws Exception {
+        Tshirt tshirt1 = new Tshirt();
+        tshirt1.setTshirtId(1);
+        tshirt1.setSize("M");
+        tshirt1.setColor("Red");
+        tshirt1.setDescription("Short-sleeve");
+        tshirt1.setPrice(new BigDecimal("19.99"));
+        tshirt1.setQuantity(10);
+        tshirt1 = tshirtRepo.save(tshirt1);
 
-        Tshirt tshirt = new Tshirt();
-        tshirt.setTshirtId(1);
-        tshirt.setColor("Black");
-        tshirt.setQuantity(1);
-        tshirt.setDescription("Cotton Shirt");
-        tshirt.setSize("L");
-        tshirt.setPrice(new BigDecimal(12.99));
 
-        Invoice invoice = new Invoice();
+        InvoiceViewModel invoice = new InvoiceViewModel();
         invoice.setName("John Smith");
         invoice.setStreet("123 Street");
         invoice.setCity("City");
         invoice.setState("CA");
         invoice.setZipcode("54321");
         invoice.setItemType("t-shirt");
-        invoice.setItemId(tshirt.getTshirtId());
-        invoice.setUnitPrice(tshirt.getPrice());
-        invoice.setQuantity(tshirt.getQuantity());
-        invoice.setSubtotal(new BigDecimal(100));
-        invoice.setTax(new BigDecimal(8.25));
-        invoice.setProcessingFee(new BigDecimal(1.75));
-        invoice.setTotal(new BigDecimal(100));
-        invoice = invoiceRepo.save(invoice);
+        invoice.setItemId(tshirt1.getTshirtId());
+        invoice.setQuantity(1);
 
         String json = mapper.writeValueAsString(invoice);
 
@@ -72,67 +85,75 @@ public class InvoiceControllerTest {
 
     }
 
+
     @Test
     public void testGetInvoiceById() throws Exception {
 
-        Invoice invoice = new Invoice();
+        Tshirt tshirt1 = new Tshirt();
+        tshirt1.setTshirtId(1);
+        tshirt1.setSize("M");
+        tshirt1.setColor("Red");
+        tshirt1.setDescription("Short-sleeve");
+        tshirt1.setPrice(new BigDecimal("19.99"));
+        tshirt1.setQuantity(10);
+        tshirt1 = tshirtRepo.save(tshirt1);
+
+
+        InvoiceViewModel invoice = new InvoiceViewModel();
         invoice.setName("John Smith");
         invoice.setStreet("123 Street");
         invoice.setCity("City");
         invoice.setState("CA");
         invoice.setZipcode("54321");
-        invoice.setItemType("game");
-        invoice.setItemId(1);
-        invoice.setUnitPrice(new BigDecimal(100));
+        invoice.setItemType("t-shirt");
+        invoice.setItemId(tshirt1.getTshirtId());
         invoice.setQuantity(1);
-        invoice.setSubtotal(new BigDecimal(100));
-        invoice.setTax(new BigDecimal(8.25));
-        invoice.setProcessingFee(new BigDecimal(1.75));
-        invoice.setTotal(new BigDecimal(100));
-        invoice = invoiceRepo.save(invoice);
+        invoice = serviceLayer.saveInvoice(invoice);
+
+        String json = mapper.writeValueAsString(invoice);
 
         mockMvc.perform(get("/invoice/read/{id}", 1))
+
                 .andExpect(status().isOk());
 
 
     }
 
+
     @Test
     public void testGetAllInvoice() throws Exception {
 
-        Invoice invoice = new Invoice();
+        Tshirt tshirt1 = new Tshirt();
+        tshirt1.setTshirtId(1);
+        tshirt1.setSize("M");
+        tshirt1.setColor("Red");
+        tshirt1.setDescription("Short-sleeve");
+        tshirt1.setPrice(new BigDecimal("19.99"));
+        tshirt1.setQuantity(10);
+        tshirt1 = tshirtRepo.save(tshirt1);
+
+
+        InvoiceViewModel invoice = new InvoiceViewModel();
         invoice.setName("John Smith");
         invoice.setStreet("123 Street");
         invoice.setCity("City");
         invoice.setState("CA");
         invoice.setZipcode("54321");
-        invoice.setItemType("game");
-        invoice.setItemId(1);
-        invoice.setUnitPrice(new BigDecimal(100));
+        invoice.setItemType("t-shirt");
+        invoice.setItemId(tshirt1.getTshirtId());
         invoice.setQuantity(1);
-        invoice.setSubtotal(new BigDecimal(100));
-        invoice.setTax(new BigDecimal(8.25));
-        invoice.setProcessingFee(new BigDecimal(1.75));
-        invoice.setTotal(new BigDecimal(100));
-        invoice = invoiceRepo.save(invoice);
+        invoice = serviceLayer.saveInvoice(invoice);
 
-        invoice = new Invoice();
+        invoice = new InvoiceViewModel();
         invoice.setName("Jane Doe");
         invoice.setStreet("123 Street");
         invoice.setCity("City");
-        invoice.setState("CA");
+        invoice.setState("TX");
         invoice.setZipcode("54321");
-        invoice.setItemType("shirt");
-        invoice.setItemId(1);
-        invoice.setUnitPrice(new BigDecimal(100));
+        invoice.setItemType("t-shirt");
+        invoice.setItemId(tshirt1.getTshirtId());
         invoice.setQuantity(1);
-        invoice.setSubtotal(new BigDecimal(100));
-        invoice.setTax(new BigDecimal(8.25));
-        invoice.setProcessingFee(new BigDecimal(1.75));
-        invoice.setTotal(new BigDecimal(100));
-        invoice = invoiceRepo.save(invoice);
-
-
+        invoice = serviceLayer.saveInvoice(invoice);
 
         String json = mapper.writeValueAsString(invoice);
 
@@ -144,21 +165,26 @@ public class InvoiceControllerTest {
 
     @Test
     public void testGetInvoiceByName() throws Exception {
-        Invoice invoice = new Invoice();
+        Tshirt tshirt1 = new Tshirt();
+        tshirt1.setTshirtId(1);
+        tshirt1.setSize("M");
+        tshirt1.setColor("Red");
+        tshirt1.setDescription("Short-sleeve");
+        tshirt1.setPrice(new BigDecimal("19.99"));
+        tshirt1.setQuantity(10);
+        tshirt1 = tshirtRepo.save(tshirt1);
+
+
+        InvoiceViewModel invoice = new InvoiceViewModel();
         invoice.setName("John Smith");
         invoice.setStreet("123 Street");
         invoice.setCity("City");
         invoice.setState("CA");
         invoice.setZipcode("54321");
-        invoice.setItemType("game");
-        invoice.setItemId(1);
-        invoice.setUnitPrice(new BigDecimal(100));
+        invoice.setItemType("t-shirt");
+        invoice.setItemId(tshirt1.getTshirtId());
         invoice.setQuantity(1);
-        invoice.setSubtotal(new BigDecimal(100));
-        invoice.setTax(new BigDecimal(8.25));
-        invoice.setProcessingFee(new BigDecimal(1.75));
-        invoice.setTotal(new BigDecimal(100));
-        invoice = invoiceRepo.save(invoice);
+        invoice = serviceLayer.saveInvoice(invoice);
 
 
 
@@ -173,21 +199,26 @@ public class InvoiceControllerTest {
     @Test
     public void testWrongCreateInvoice() throws Exception {
 
-        Invoice invoice = new Invoice();
+        Tshirt tshirt1 = new Tshirt();
+        tshirt1.setTshirtId(1);
+        tshirt1.setSize("M");
+        tshirt1.setColor("Red");
+        tshirt1.setDescription("Short-sleeve");
+        tshirt1.setPrice(new BigDecimal("19.99"));
+        tshirt1.setQuantity(10);
+        tshirt1 = tshirtRepo.save(tshirt1);
+
+
+        InvoiceViewModel invoice = new InvoiceViewModel();
         invoice.setName("John Smith");
         invoice.setStreet("123 Street");
         invoice.setCity("City");
-        invoice.setState("State");
+        invoice.setState("CA");
         invoice.setZipcode("54321");
-        invoice.setItemType("CA");
-        invoice.setItemId(1);
-        invoice.setUnitPrice(new BigDecimal(100));
+        invoice.setItemType("t-shirt");
+        invoice.setItemId(tshirt1.getTshirtId());
         invoice.setQuantity(1);
-        invoice.setSubtotal(new BigDecimal(100));
-        invoice.setTax(new BigDecimal(8.25));
-        invoice.setProcessingFee(new BigDecimal(1.75));
-        invoice.setTotal(new BigDecimal(100));
-        invoice = invoiceRepo.save(invoice);
+        invoice = serviceLayer.saveInvoice(invoice);
 
         String json = mapper.writeValueAsString(invoice);
 
@@ -197,4 +228,6 @@ public class InvoiceControllerTest {
                 .andExpect(status().isNotFound());
 
     }
+
+
 }
