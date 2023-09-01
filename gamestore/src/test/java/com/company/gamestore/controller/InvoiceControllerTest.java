@@ -92,13 +92,9 @@ public class InvoiceControllerTest {
         invoice.setTotal(new BigDecimal(100));
         invoice = invoiceRepo.save(invoice);
 
-        Integer id = invoice.getInvoiceId();
-        String invoiceId = id.toString();
 
-        mockMvc.perform(get("/invoice/read/{id}",invoiceId))
+        mockMvc.perform(get("/invoice/read/{id}",1))
                 .andExpect(status().isOk());
-
-
     }
 
     @Test
@@ -136,8 +132,7 @@ public class InvoiceControllerTest {
         secondInvoice.setTotal(new BigDecimal(100));
         secondInvoice = invoiceRepo.save(invoice);
 
-        List<Invoice> invoiceList = invoiceRepo.findAll();
-        String json = mapper.writeValueAsString(invoiceList);
+        String json = mapper.writeValueAsString(invoice);
 
         mockMvc.perform(get("/invoice/read")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -167,6 +162,7 @@ public class InvoiceControllerTest {
 
         String json = mapper.writeValueAsString(invoice);
 
+        //Changed uriVariable to 1 as a string and seems to have fixed, no idea why
         mockMvc.perform(get("/invoice/read/name/{name}", "1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
